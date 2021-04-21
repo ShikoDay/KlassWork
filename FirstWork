@@ -1,0 +1,95 @@
+A=[]
+B=["ФИО","Англиский(Э)","Философия(Э)","Математический анализ(Э)","Информатика(Э)","Теория вероятности(З)","Физкультура(З)","Методы и средства(З)","Практика(З)"]
+A.append(B)
+i = 1
+n = int(input("Введите количество студентов - "))
+
+GrypBall = 0
+
+Step=[]
+def srBall(C=[]):
+
+    sred=0
+    
+    name = C[0]
+    for j in range(1,len(B)):
+        sred=sred+C[j]
+    global GrypBall 
+    GrypBall = GrypBall + sred/8
+    print("Студент "+str(name)+" имеет средний балл:"+str(sred/8))
+
+UPStep = [] # Массив куда поместятся студенты с повышенной степендией
+DownStep = [] # Массив куда поместятся студенты с обычной степендией
+NoYspev  =[] # Массив куда поместятся неуспевающие студенты
+
+def transpouse(mat): # Функция для транспонирования массива
+    matrix = []
+    for i in range(len(mat[0])):# mat - изначальная матрица
+        matrix.append(list())
+        for j in range(len(mat)):
+            matrix[i].append(str(mat[j][i])) 
+    return matrix
+
+
+def step(C=[]): # Проверка для пригодности на степендию
+    name = C[0]
+    strp = ""
+    D=[]
+    for o in range(1,len(C)):
+        D.append(C[o])
+    if min(D)==2:
+        strp = "неуспевающий"
+       
+    elif min(D)==3:
+        strp = "Нет степендии"
+            
+    elif min(D)==4:
+        strp = "Обычная степендия"
+            
+    else:
+        strp ="Повышенная"
+            
+
+    if strp =="Повышенная":
+        UPStep.append(name+" "+strp)
+    elif strp == "Обычная степендия":
+        DownStep.append(name+" "+strp)
+    elif strp == "неуспевающий":
+        NoYspev.append(name+" "+strp)
+
+
+
+while i <= n: # Функция для ввода ФИО и оценок студента
+    print("————————>")
+    C=[]
+    C.append(str(input(str(i)+") Введите "+str(B[0])+" - ")))
+    for j in range(1,len(B)):
+        
+        C.append(int(input(str(i)+") Введите оценку по "+str(B[j])+" - ")))
+    A.append(C)
+    
+    i = i+1
+print("————————————————————————————————————————————")
+
+a = transpouse(A)
+mlen = (max(map(len, col)) for col in zip(*a))  # 27, 7, 8, 6, 6
+s = f"{{:<{next(mlen)}}} {' '.join(f'{{:>{ml}}}' for ml in mlen)}"  # "{:<27} {:>8}{:>9}{:>7}{:>7}"
+for d  in a:
+    print(s.format(*d));
+
+print("————————————————————————————————————————————")
+
+for i in range(1,len(A)): # Вывод средней оценки
+    srBall(A[i])
+    step(A[i])
+print("Средний бал группы: "+str(GrypBall/n))
+
+print("————————————————————————————————————————————") # Вывод по условию
+for Up in range(len(UPStep)):
+    print(UPStep[Up],sep='\t')
+
+for Up in range(len(DownStep)):
+    print(DownStep[Up],sep='\t')
+    
+for Up in range(len(NoYspev)):
+    print(NoYspev[Up],sep='\t')
